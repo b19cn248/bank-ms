@@ -87,3 +87,7 @@ m
 =loans/src/main/java/com/eazybytes/loans/LoansApplication.java,6/9/690667b636c2559bbbe48a5ba68f69674cf59ae3
 q
 Aaccounts/src/main/java/com/eazybytes/accounts/entity/Account.java,c/2/c2961796bd831b09be5c2c3c8fba4bd708f2396d
+C
+accounts/Dockerfile,b/1/b1390454e72abada1cfda42f95a9b1a6605e2068
+K
+accounts/docker-compose.yml,6/9/69bdfae916d529f468930246e21b9817a051520e
