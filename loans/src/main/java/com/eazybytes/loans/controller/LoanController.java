@@ -2,6 +2,7 @@ package com.eazybytes.loans.controller;
 
 import com.eazybytes.loans.dto.ErrorResponseDTO;
 import com.eazybytes.loans.dto.LoanDTO;
+import com.eazybytes.loans.dto.LoansContactInfoDto;
 import com.eazybytes.loans.dto.ResponseDTO;
 import com.eazybytes.loans.service.LoanService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -22,6 +23,7 @@ import static com.eazybytes.loans.constants.LoansConstants.*;
 public class LoanController {
 
   private final LoanService loanService;
+  private final LoansContactInfoDto loansContactInfoDto;
 
 
   @Operation(
@@ -142,5 +144,10 @@ public class LoanController {
           isDeleted ? STATUS_200 : STATUS_417,
           isDeleted ? MESSAGE_200 : MESSAGE_417_DELETE
     ));
+  }
+
+  @GetMapping("/contact-info")
+  public ResponseEntity<LoansContactInfoDto> getContactInfo() {
+    return ResponseEntity.ok(loansContactInfoDto);
   }
 }

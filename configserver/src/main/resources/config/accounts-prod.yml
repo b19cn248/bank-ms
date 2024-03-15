@@ -4,7 +4,7 @@ build:
 accounts:
   message: "Welcome to EazyBank accounts related local APIs "
   contactDetails:
-    name: "Hieu PC - Developer"
+    name: "Hieu PC - Product Owner"
     email: "hieunm123.ptit@gmail.com"
   onCallSupport:
     - 0987975814

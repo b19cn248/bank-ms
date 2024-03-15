@@ -1,6 +1,7 @@
 package com.eazybytes.cards.controller;
 
 import com.eazybytes.cards.dto.CardDTO;
+import com.eazybytes.cards.dto.CardsContactInfoDTO;
 import com.eazybytes.cards.dto.ErrorResponseDTO;
 import com.eazybytes.cards.dto.ResponseDTO;
 import com.eazybytes.cards.service.CardService;
@@ -25,6 +26,8 @@ import static com.eazybytes.cards.constants.CardsConstants.*;
 public class CardController {
 
   private final CardService cardService;
+
+  private final CardsContactInfoDTO cardsContactInfoDTO;
 
   @Operation(
         summary = "Create Card REST API",
@@ -148,5 +151,11 @@ public class CardController {
                   MESSAGE_417_DELETE
             ));
     }
+  }
+
+
+  @GetMapping("/contact-info")
+  public ResponseEntity<CardsContactInfoDTO> getContactInfo() {
+    return ResponseEntity.ok(cardsContactInfoDTO);
   }
 }
