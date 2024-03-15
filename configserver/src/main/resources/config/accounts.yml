@@ -1,0 +1,35 @@
+server:
+  port: 8080
+spring:
+  profiles:
+    active:
+      - "dev"
+  datasource:
+    url: jdbc:h2:mem:testdb
+    driver-class-name: org.h2.Driver
+    username: sa
+    password: ''
+  h2:
+    console:
+      enabled: true
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+  config:
+    import:
+      - "application_qa.yml"
+      - "application_dev.yml"
+
+build:
+  version: 1.0.0
+
+accounts:
+  message: "Welcome to EazyBank accounts related local APIs "
+  contactDetails:
+    name: "Hieu PC - Developer"
+    email: "hieunm123.ptit@gmail.com"
+  onCallSupport:
+    - 0987975814
+    - 0973716456

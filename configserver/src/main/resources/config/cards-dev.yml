@@ -1,0 +1,8 @@
+cards:
+  message: "Welcome to EazyBank cards related local APIs "
+  contactDetails:
+    name: "HieuNguyen - Developer"
+    email: "hieunm123.ptit@gmail.com"
+    onCallSupport:
+      - (412) 419-3491
+      - (915) 382-1932

@@ -1,0 +1,11 @@
+build:
+  version: "1.0"
+
+accounts:
+  message: "Welcome to EazyBank accounts related local APIs "
+  contactDetails:
+    name: "Hieu PC - Developer"
+    email: "hieunm123.ptit@gmail.com"
+  onCallSupport:
+    - 0987975814
+    - 0973716456
