@@ -1,7 +1,7 @@
 package com.eazybytes.accounts;
 
 import com.eazybytes.accounts.controller.AppProperties;
-import com.eazybytes.accounts.dto.AccountsContactInfoDto;
+import com.eazybytes.accounts.dto.AccountsContactInfoDTO;
 import io.swagger.v3.oas.annotations.ExternalDocumentation;
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.info.Contact;
@@ -34,7 +34,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
             url = "https://www.eazybytes.com/swagger-ui.html"
       )
 )
-@EnableConfigurationProperties({AppProperties.class, AccountsContactInfoDto.class})
+@EnableConfigurationProperties({AppProperties.class, AccountsContactInfoDTO.class})
 public class AccountsApplication {
 
   public static void main(String[] args) {

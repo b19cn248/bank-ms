@@ -1,6 +1,6 @@
 package com.eazybytes.accounts.controller;
 
-import com.eazybytes.accounts.dto.AccountsContactInfoDto;
+import com.eazybytes.accounts.dto.AccountsContactInfoDTO;
 import com.eazybytes.accounts.dto.CustomerDTO;
 import com.eazybytes.accounts.dto.ErrorResponseDTO;
 import com.eazybytes.accounts.dto.ResponseDTO;
@@ -13,8 +13,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Pattern;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.env.Environment;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -30,16 +29,12 @@ import static com.eazybytes.accounts.constant.AccountsConstant.*;
       name = "CRUD REST APIs for Accounts in EazyBank",
       description = "CRUD REST APIs in EazyBank to CREATE, UPDATE, FETCH AND DELETE account details"
 )
+@Slf4j
 public class AccountsController {
 
   private final IAccountService accountService;
 
-  private final AccountsContactInfoDto accountsContactInfoDto;
-
-  private final Environment environment;
-
-  @Value("${build.version}")
-  private String buildVersion;
+  private final AccountsContactInfoDTO accountsContactInfoDto;
 
   @Operation(
         summary = "Create Account REST API",
@@ -175,35 +170,14 @@ public class AccountsController {
   }
 
   @Operation(
-        summary = "Get Build Version",
-        description = "Get Build version that is deployed into accounts microservice"
-  )
-  @GetMapping("/build-version")
-  public ResponseEntity<String> getPropertiesByValueAnnotation() {
-    return ResponseEntity
-          .status(HttpStatus.OK)
-          .body(buildVersion);
-  }
-
-
-  @Operation(
-        summary = "Get Java Version",
-        description = "Get Java version that is deployed into accounts microservice"
-  )
-  @GetMapping("/home-env")
-  public ResponseEntity<String> getJavaVersion() {
-    return ResponseEntity
-          .status(HttpStatus.OK)
-          .body(environment.getProperty("SESSION_MANAGER"));
-  }
-
-
-  @Operation(
         summary = "Get Contact Info",
         description = "Contact Info details that can be reached out in case of any issues"
   )
   @GetMapping("/contact-info")
-  public ResponseEntity<AccountsContactInfoDto> getPropertiesByConfigurationPropertiesAnnotation() {
+  public ResponseEntity<AccountsContactInfoDTO> getPropertiesByConfigurationPropertiesAnnotation() {
+
+    log.info("Contact Info details that can be reached out in case of any issues");
+
     return ResponseEntity
           .status(HttpStatus.OK)
           .body(accountsContactInfoDto);
