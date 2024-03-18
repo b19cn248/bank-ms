@@ -48,11 +48,6 @@
         </dependency>
 
         <dependency>
-            <groupId>com.h2database</groupId>
-            <artifactId>h2</artifactId>
-            <scope>runtime</scope>
-        </dependency>
-        <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <optional>true</optional>
@@ -76,11 +71,12 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-actuator</artifactId>
         </dependency>
-
         <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-bus-amqp</artifactId>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+            <scope>runtime</scope>
         </dependency>
+
     </dependencies>
 
     <build>
@@ -104,7 +100,7 @@
                 <version>3.4.1</version>
                 <configuration>
                     <to>
-                        <image>b19dccn248/${project.artifactId}:s6</image>
+                        <image>b19dccn248/${project.artifactId}:s7</image>
                     </to>
                 </configuration>
             </plugin>

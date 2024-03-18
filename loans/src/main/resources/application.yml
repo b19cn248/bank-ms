@@ -11,22 +11,17 @@ spring:
   h2:
     console:
       enabled: true
+
   jpa:
-    database-platform: org.hibernate.dialect.H2Dialect
-    hibernate:
-      ddl-auto: update
     show-sql: true
+  sql:
+    init:
+      mode: always
   profiles:
     active:
       - "qa"
   config:
     import: "optional:configserver:http://localhost:8071/"
-
-  rabbitmq:
-    host: "localhost"
-    port: 5672
-    username: "guest"
-    password: "guest"
 
 management:
   endpoints:
