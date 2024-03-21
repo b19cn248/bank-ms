@@ -12,10 +12,7 @@ import jakarta.validation.constraints.Pattern;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 
 @Tag(
@@ -49,9 +46,10 @@ public class CustomerController {
   )
   @GetMapping
   public ResponseEntity<CustomerDetailDTO> fetchCustomerDetails(
+        @RequestHeader("eazybank-correlation-id") String correlationId,
         @RequestParam @Pattern(regexp = "(^$|\\d{10})", message = "Mobile number must be 10 digits") String mobileNumber
   ) {
-    log.info("Fetching customer details for the mobile number: {}", mobileNumber);
-    return ResponseEntity.ok(customerService.getCustomerDetails(mobileNumber));
+    log.debug("Fetching customer details for the correlationId:{}, mobile number: {}", correlationId, mobileNumber);
+    return ResponseEntity.ok(customerService.getCustomerDetails(mobileNumber, correlationId));
   }
 }

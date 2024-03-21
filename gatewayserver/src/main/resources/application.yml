@@ -8,6 +8,7 @@ spring:
       discovery:
         locator:
           enabled: true
+          lower-case-service-id: true
 
 management:
   endpoints:
@@ -26,3 +27,9 @@ info:
     name: "gatewayserver"
     description: "Eazy Bank Gateway Server"
     version: "1.0"
+
+logging:
+  level:
+    com:
+      eazybytes:
+        gatewayserver: DEBUG

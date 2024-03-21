@@ -10,5 +10,5 @@ public interface CustomerService {
    * @param mobileNumber the mobile number
    * @return the customer details
    */
-  CustomerDetailDTO getCustomerDetails(String mobileNumber);
+  CustomerDetailDTO getCustomerDetails(String mobileNumber, String correlationId);
 }

@@ -11,6 +11,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import jakarta.validation.constraints.Pattern;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -20,6 +21,7 @@ import static com.eazybytes.loans.constants.LoansConstants.*;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/loans")
+@Slf4j
 public class LoanController {
 
   private final LoanService loanService;
@@ -73,8 +75,12 @@ public class LoanController {
   )
   @GetMapping
   public ResponseEntity<LoanDTO> fetchLoan(
+        @RequestHeader("eazybank-correlation-id") String correlationId,
         @RequestParam @Pattern(regexp = "(^$|\\d{10})", message = "Mobile number must be 10 digits") String mobileNumber
   ) {
+
+    log.debug("Fetching loan details for the correlationId:{}, mobile number: {}", correlationId, mobileNumber);
+
     return ResponseEntity
           .status(HttpStatus.OK)
           .body(loanService.fetchLoan(mobileNumber));

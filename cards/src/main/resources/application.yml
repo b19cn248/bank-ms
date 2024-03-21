@@ -48,4 +48,10 @@ info:
     description: "Eazy Bank Cards Microservice"
     version: "1.0"
 
+logging:
+  level:
+    com:
+      eazybytes:
+        cards: DEBUG
+
 
