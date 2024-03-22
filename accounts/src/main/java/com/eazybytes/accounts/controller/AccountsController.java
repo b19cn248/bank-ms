@@ -5,6 +5,7 @@ import com.eazybytes.accounts.dto.CustomerDTO;
 import com.eazybytes.accounts.dto.ErrorResponseDTO;
 import com.eazybytes.accounts.dto.ResponseDTO;
 import com.eazybytes.accounts.service.IAccountService;
+import io.github.resilience4j.retry.annotation.Retry;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -14,10 +15,13 @@ import jakarta.validation.Valid;
 import jakarta.validation.constraints.Pattern;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.concurrent.TimeoutException;
 
 import static com.eazybytes.accounts.constant.AccountsConstant.*;
 
@@ -35,6 +39,9 @@ public class AccountsController {
   private final IAccountService accountService;
 
   private final AccountsContactInfoDTO accountsContactInfoDto;
+
+  @Value("${build.version}")
+  private String buildVersion;
 
   @Operation(
         summary = "Create Account REST API",
@@ -167,6 +174,28 @@ public class AccountsController {
             .status(HttpStatus.INTERNAL_SERVER_ERROR)
             .body(new ResponseDTO(STATUS_500, MESSAGE_500));
     }
+  }
+
+  @Retry(name = "getBuildInfo", fallbackMethod = "getBuildInfoFallback")
+  @GetMapping("/build-info")
+  public ResponseEntity<String> getBuildInfo() throws TimeoutException {
+
+    log.debug("Build Info details");
+
+    throw new RuntimeException("This is a test exception");
+
+//    return ResponseEntity
+//          .status(HttpStatus.OK)
+//          .body(buildVersion);
+  }
+
+  public ResponseEntity<String> getBuildInfoFallback(Throwable throwable) {
+
+    log.debug("Fallback method for Build Info details");
+
+    return ResponseEntity
+          .status(HttpStatus.OK)
+          .body("0.9");
   }
 
   @Operation(

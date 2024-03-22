@@ -1,7 +1,9 @@
 package com.eazybytes.accounts.service.impl;
 
 import com.eazybytes.accounts.dto.AccountDTO;
+import com.eazybytes.accounts.dto.CardDTO;
 import com.eazybytes.accounts.dto.CustomerDetailDTO;
+import com.eazybytes.accounts.dto.LoanDTO;
 import com.eazybytes.accounts.entity.Account;
 import com.eazybytes.accounts.entity.Customer;
 import com.eazybytes.accounts.exception.ResourceNotFoundException;
@@ -14,7 +16,10 @@ import com.eazybytes.accounts.service.client.CardFeignClient;
 import com.eazybytes.accounts.service.client.LoanFeignClient;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+
+import java.util.Objects;
 
 import static com.eazybytes.accounts.constant.AccountsConstant.CUSTOMER;
 
@@ -40,8 +45,18 @@ public class CustomerServiceImpl implements CustomerService {
 
     CustomerDetailDTO customerDetailDTO = CustomerMapper.mapToCustomerDetailDTO(customer, new CustomerDetailDTO());
     customerDetailDTO.setAccountDTO(AccountMapper.mapToAccountsDTO(account, new AccountDTO()));
-    customerDetailDTO.setCardDTO(cardFeignClient.fetchCard(correlationId, mobileNumber).getBody());
-    customerDetailDTO.setLoanDTO(loanFeignClient.fetchLoan(correlationId, mobileNumber).getBody());
+
+    ResponseEntity<CardDTO> cardDTOResponseEntity = cardFeignClient.fetchCard(correlationId, mobileNumber);
+
+    if (Objects.nonNull(cardDTOResponseEntity)) {
+      customerDetailDTO.setCardDTO(cardDTOResponseEntity.getBody());
+    }
+
+    ResponseEntity<LoanDTO> loanDTOResponseEntity = loanFeignClient.fetchLoan(correlationId, mobileNumber);
+
+    if (Objects.nonNull(loanDTOResponseEntity)) {
+      customerDetailDTO.setLoanDTO(loanDTOResponseEntity.getBody());
+    }
 
     return customerDetailDTO;
   }

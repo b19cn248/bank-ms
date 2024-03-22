@@ -154,6 +154,8 @@ public class LoanController {
 
   @GetMapping("/contact-info")
   public ResponseEntity<LoansContactInfoDto> getContactInfo() {
-    return ResponseEntity.ok(loansContactInfoDto);
+    log.debug("Fetching contact info for loans");
+    throw new RuntimeException("This is a test exception");
+//    return ResponseEntity.ok(loansContactInfoDto);
   }
 }
