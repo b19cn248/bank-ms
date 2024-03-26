@@ -16,6 +16,7 @@ spring:
           clone-on-start: true
           force-pull: true
 
+
 management:
   endpoints:
     web:
@@ -30,6 +31,13 @@ management:
     health:
       probes:
         enabled: true
+  metrics:
+    tags:
+      application: ${spring.application.name}
+
+logging:
+  pattern:
+    level: "%5p [${spring.application.name},%X{trace_id},%X{span_id}]"
 
 
 server:

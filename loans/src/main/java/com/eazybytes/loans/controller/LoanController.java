@@ -75,11 +75,10 @@ public class LoanController {
   )
   @GetMapping
   public ResponseEntity<LoanDTO> fetchLoan(
-        @RequestHeader("eazybank-correlation-id") String correlationId,
         @RequestParam @Pattern(regexp = "(^$|\\d{10})", message = "Mobile number must be 10 digits") String mobileNumber
   ) {
 
-    log.debug("Fetching loan details for the correlationId:{}, mobile number: {}", correlationId, mobileNumber);
+    log.info("Fetching loan for mobile number: {}", mobileNumber);
 
     return ResponseEntity
           .status(HttpStatus.OK)
@@ -155,7 +154,6 @@ public class LoanController {
   @GetMapping("/contact-info")
   public ResponseEntity<LoansContactInfoDto> getContactInfo() {
     log.debug("Fetching contact info for loans");
-    throw new RuntimeException("This is a test exception");
-//    return ResponseEntity.ok(loansContactInfoDto);
+    return ResponseEntity.ok(loansContactInfoDto);
   }
 }

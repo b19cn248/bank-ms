@@ -5,6 +5,7 @@ import com.eazybytes.accounts.dto.CustomerDTO;
 import com.eazybytes.accounts.dto.ErrorResponseDTO;
 import com.eazybytes.accounts.dto.ResponseDTO;
 import com.eazybytes.accounts.service.IAccountService;
+import io.github.resilience4j.ratelimiter.annotation.RateLimiter;
 import io.github.resilience4j.retry.annotation.Retry;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -21,6 +22,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.concurrent.TimeoutException;
 
 import static com.eazybytes.accounts.constant.AccountsConstant.*;
@@ -203,6 +207,7 @@ public class AccountsController {
         description = "Contact Info details that can be reached out in case of any issues"
   )
   @GetMapping("/contact-info")
+  @RateLimiter(name = "getPropertiesByConfigurationPropertiesAnnotation", fallbackMethod = "fallbackMethod")
   public ResponseEntity<AccountsContactInfoDTO> getPropertiesByConfigurationPropertiesAnnotation() {
 
     log.info("Contact Info details that can be reached out in case of any issues");
@@ -210,5 +215,22 @@ public class AccountsController {
     return ResponseEntity
           .status(HttpStatus.OK)
           .body(accountsContactInfoDto);
+  }
+
+  public ResponseEntity<AccountsContactInfoDTO> fallbackMethod(Throwable throwable) {
+
+    log.info("Fallback method for Contact Info details");
+
+    Map<String, String> contactDetails = new HashMap<>();
+    contactDetails.put("name", "Hieu PC - Product Owner with docker MYSQL");
+    contactDetails.put("email", "hieunm123.ptit@gmail.com");
+
+    return ResponseEntity
+          .status(HttpStatus.OK)
+          .body(AccountsContactInfoDTO.builder()
+                .message("Welcome to EazyBank accounts related local APIs Production with FALLBACK")
+                .contactDetails(contactDetails)
+                .onCallSupport(List.of("0987975814", "0973716456"))
+                .build());
   }
 }

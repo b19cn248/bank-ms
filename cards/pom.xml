@@ -17,6 +17,7 @@
     <properties>
         <java.version>17</java.version>
         <spring-cloud.version>2023.0.0</spring-cloud.version>
+        <otelVersion>1.32.0</otelVersion>
     </properties>
     <dependencyManagement>
         <dependencies>
@@ -33,6 +34,12 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-jpa</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.opentelemetry.javaagent</groupId>
+            <artifactId>opentelemetry-javaagent</artifactId>
+            <version>${otelVersion}</version>
+            <scope>runtime</scope>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -68,6 +75,10 @@
             <artifactId>spring-boot-starter-actuator</artifactId>
         </dependency>
         <dependency>
+            <groupId>io.micrometer</groupId>
+            <artifactId>micrometer-registry-prometheus</artifactId>
+        </dependency>
+        <dependency>
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
             <scope>runtime</scope>
@@ -100,7 +111,7 @@
                 <version>3.4.1</version>
                 <configuration>
                     <to>
-                        <image>b19dccn248/${project.artifactId}:s9</image>
+                        <image>b19dccn248/${project.artifactId}:s12</image>
                     </to>
                 </configuration>
             </plugin>
