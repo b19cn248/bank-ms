@@ -1,6 +1,7 @@
 package com.eazybytes.accounts.service.impl;
 
 import com.eazybytes.accounts.dto.AccountDTO;
+import com.eazybytes.accounts.dto.AccountMsgDTO;
 import com.eazybytes.accounts.dto.CustomerDTO;
 import com.eazybytes.accounts.entity.Account;
 import com.eazybytes.accounts.entity.Customer;
@@ -13,6 +14,7 @@ import com.eazybytes.accounts.repository.CustomerRepository;
 import com.eazybytes.accounts.service.IAccountService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.cloud.stream.function.StreamBridge;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -28,6 +30,7 @@ public class AccountServiceImpl implements IAccountService {
 
   private final AccountRepository accountRepository;
   private final CustomerRepository customerRepository;
+  private final StreamBridge streamBridge;
   private final Random random = new Random();
 
   @Override
@@ -47,7 +50,9 @@ public class AccountServiceImpl implements IAccountService {
 
     Customer savedCustomer = customerRepository.save(customer);
 
-    accountRepository.save(this.createNewAccount(savedCustomer));
+    Account savedAccount = accountRepository.save(this.createNewAccount(savedCustomer));
+
+    this.sendCommunication(savedAccount, savedCustomer);
   }
 
   @Override
@@ -109,6 +114,18 @@ public class AccountServiceImpl implements IAccountService {
     customerRepository.deleteById(customer.getId());
 
     return true;
+  }
+
+  private void sendCommunication(Account account, Customer customer) {
+    var accountMsgDto = new AccountMsgDTO(
+          account.getAccountNumber(),
+          customer.getName(),
+          customer.getEmail(),
+          customer.getMobileNumber()
+    );
+    log.info("Sending message to the communication service: {}", accountMsgDto);
+    var result = streamBridge.send("sendCommunication-out-0", accountMsgDto);
+    log.info("Is the Communication Request sent successfully: {}", result);
   }
 
   private Account createNewAccount(Customer customer) {
