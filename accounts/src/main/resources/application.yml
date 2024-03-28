@@ -109,4 +109,7 @@ resilience4j:
         timeout-duration: 1000
         limit-refresh-period: 5000
         limit-for-period: 1
+openapi:
+  oAuthFlow:
+    tokenUrl: http://localhost:7080/realms/master/protocol/openid-connect/token
 

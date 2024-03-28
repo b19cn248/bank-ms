@@ -66,3 +66,7 @@ logging:
         loans: DEBUG
   pattern:
     level: "%5p [${spring.application.name},%X{trace_id},%X{span_id}]"
+
+openapi:
+  oAuthFlow:
+    tokenUrl: http://localhost:7080/realms/master/protocol/openid-connect/token
