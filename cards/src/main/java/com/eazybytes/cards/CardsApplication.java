@@ -14,6 +14,7 @@ import io.swagger.v3.oas.annotations.security.SecurityScheme;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 
 @SpringBootApplication
@@ -42,10 +43,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
       )
 )
 @EnableConfigurationProperties({CardsContactInfoDTO.class})
-@SecurityScheme(name = "security_auth", type = SecuritySchemeType.OAUTH2,
-      flows = @OAuthFlows(clientCredentials = @OAuthFlow(tokenUrl = "${openapi.oAuthFlow.tokenUrl}", scopes = {
-            @OAuthScope(name = "openid", description = "openid scope")
-      })))
+@EnableDiscoveryClient
 public class CardsApplication {
 
   public static void main(String[] args) {

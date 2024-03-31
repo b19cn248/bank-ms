@@ -18,6 +18,7 @@ import org.springframework.cloud.stream.function.StreamBridge;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.Random;
 
@@ -63,7 +64,7 @@ public class AccountServiceImpl implements IAccountService {
           .orElseThrow(() -> new ResourceNotFoundException(CUSTOMER, "mobile number", mobileNumber));
 
     Account account = accountRepository.findByCustomerId(customer.getId())
-          .orElseThrow(() -> new ResourceNotFoundException("Account", "customerId", customer.getId().toString()));
+          .orElseThrow(() -> new ResourceNotFoundException(ACCOUNT, "customerId", customer.getId().toString()));
 
     CustomerDTO customerDto = CustomerMapper.mapToCustomerDTO(customer, new CustomerDTO());
     customerDto.setAccountDTO(AccountMapper.mapToAccountsDTO(account, new AccountDTO()));
@@ -81,7 +82,7 @@ public class AccountServiceImpl implements IAccountService {
     if (accountDTO != null) {
       Account account = accountRepository.findById(accountDTO.getAccountNumber())
             .orElseThrow(() -> new ResourceNotFoundException(
-                  "Account",
+                  ACCOUNT,
                   "accountNumber",
                   accountDTO.getAccountNumber().toString())
             );
@@ -114,6 +115,25 @@ public class AccountServiceImpl implements IAccountService {
     customerRepository.deleteById(customer.getId());
 
     return true;
+  }
+
+  @Override
+  public boolean updateCommunicationStatus(Long accountNumber) {
+    log.info("Updating communication status for account number: {}", accountNumber);
+
+    boolean isUpdated = false;
+
+    if (Objects.nonNull(accountNumber)) {
+      Account account = accountRepository.findById(accountNumber)
+            .orElseThrow(() -> new ResourceNotFoundException(ACCOUNT, "accountNumber", accountNumber.toString()));
+
+      account.setCommunicationSw(true);
+      accountRepository.save(account);
+
+      isUpdated = true;
+    }
+
+    return isUpdated;
   }
 
   private void sendCommunication(Account account, Customer customer) {
